@@ -1,81 +1,43 @@
 import React, { useState, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { CSSTransition, TransitionGroup } from "react-transition-group"; // Importing CSSTransition and TransitionGroup
 import "./App.css";
 import "./Dashboard.css";
 import Candidates from "./Candidates";
 import Interviewers from "./Interviewers";
 import Reports from "./Reports";
 import Settings from "./Settings";
-import AnimatedButton from "./AnimatedButton"; // Import the AnimatedButton
+import AnimatedButton from "./AnimatedButton";
 
 function App() {
   const [activeTab, setActiveTab] = useState("home");
-  const [tabPosition, setTabPosition] = useState({ left: 0, width: 0 });
-  const navRef = useRef(null);
-
-  const updateTabPosition = (index) => {
-    if (navRef.current) {
-      const navItem = navRef.current.children[index];
-      const { left, width } = navItem.getBoundingClientRect();
-      const navLeft = navRef.current.getBoundingClientRect().left;
-      setTabPosition({ left: left - navLeft, width });
-    }
-  };
-
-  const pageVariants = {
-    initial: (custom) => ({
-      opacity: 0,
-      x: custom.left + custom.width / 2,
-      y: -50,
-      scale: 0.5,
-    }),
-    enter: {
-      opacity: 1,
-      x: 0,
-      y: 0,
-      scale: 1,
-      transition: {
-        type: "spring",
-        stiffness: 500,
-        damping: 30,
-      },
-    },
-    exit: {
-      opacity: 0,
-      x: 100,
-      transition: {
-        duration: 0.2,
-      },
-    },
-  };
 
   const renderContent = () => {
     switch (activeTab) {
       case "home":
         return (
-          <motion.div key="home" className="content">
+          <div key="home" className="content">
             <h1>Upcoming Interviews</h1>
             <p>Details of upcoming interviews...</p>
-          </motion.div>
+          </div>
         );
       case "interviewers":
         return (
-          <div>
+          <div key="interviewers">
             <Interviewers />
             <AnimatedButton text="Add Interviewers" onClick={() => alert("Add Interviewers Clicked!")} />
           </div>
         );
       case "candidates":
         return (
-          <div>
+          <div key="candidates">
             <Candidates />
             <AnimatedButton text="Add Candidates" onClick={() => alert("Add Candidates Clicked!")} />
           </div>
         );
       case "reports":
-        return <Reports />;
+        return <Reports key="reports" />;
       case "settings":
-        return <Settings />;
+        return <Settings key="settings" />;
       default:
         return null;
     }
@@ -83,18 +45,16 @@ function App() {
 
   return (
     <div className="app">
-      {/* Dashboard Title */}
       <h1 className="dashboard-title">Dashboard</h1>
 
       <nav className="navbar">
-        <ul ref={navRef}>
-          {["home", "interviewers", "candidates", "reports", "settings"].map((tab, index) => (
+        <ul>
+          {["home", "interviewers", "candidates", "reports", "settings"].map((tab) => (
             <li
               key={tab}
               className={activeTab === tab ? "active" : ""}
               onClick={() => {
                 setActiveTab(tab);
-                updateTabPosition(index);
               }}
             >
               {tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -104,18 +64,11 @@ function App() {
       </nav>
 
       <main>
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.div
-            key={activeTab}
-            custom={tabPosition}
-            variants={pageVariants}
-            initial="initial"
-            animate="enter"
-            exit="exit"
-          >
+        <TransitionGroup>
+          <CSSTransition key={activeTab} timeout={300} classNames="fade">
             {renderContent()}
-          </motion.div>
-        </AnimatePresence>
+          </CSSTransition>
+        </TransitionGroup>
       </main>
     </div>
   );

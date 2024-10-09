@@ -11,16 +11,16 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start; /* Changed to flex-start to align items at the top */
-  min-height: 100vh; /* Ensure the app takes full height of the viewport */
+  justify-content: flex-start;
+  min-height: 100vh;
 }
 
 /* Dashboard Title Styling */
 .dashboard-title {
-  text-align: center; /* Center the title */
-  margin: 20px 0; /* Add some spacing */
-  font-size: 2rem; /* Adjust font size as needed */
-  color: #ffffff; /* Color to suit your design */
+  text-align: center;
+  margin: 20px 0;
+  font-size: 2rem;
+  color: #ffffff;
 }
 
 /* Navbar Styling */
@@ -36,7 +36,7 @@ body {
   margin: 0;
   padding: 0;
   justify-content: center;
-  flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+  flex-wrap: wrap;
 }
 
 .navbar ul li {
@@ -61,111 +61,78 @@ body {
   padding: 20px;
   border-radius: 8px;
   background-color: #2c2c2e;
-  width: 90%; /* Make width responsive */
-  max-width: 900px; /* Maximum width for larger screens */
+  width: 90%;
+  max-width: 900px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   position: relative;
 }
 
-/* Styling for the Report Section */
-.report-section .reports-box {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 20px;
-  flex-wrap: wrap; /* Allow wrapping for smaller screens */
-}
-
-.report-item {
-  background-color: #555;
-  padding: 20px;
-  border-radius: 8px;
-  width: 100%; /* Default to full width */
-  max-width: 300px; /* Limit width on larger screens */
-  text-align: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  margin: 10px; /* Add spacing between items */
-}
-
-.report-item:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-.report-item h2 {
-  margin-bottom: 10px;
-  font-size: 1.5em;
-}
-
-.report-item p {
-  font-size: 1.2em;
-}
-
 /* Animation for Tab Content */
-.tab-content-enter {
+.fade-enter {
   opacity: 0;
-  transform: scale(0.9);
+  transform: translateX(100%);
 }
 
-.tab-content-enter-active {
+.fade-enter-active {
   opacity: 1;
-  transform: scale(1);
+  transform: translateX(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.fade-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transform: translateX(-100%);
   transition: opacity 300ms, transform 300ms;
 }
 
 /* Responsive Styles */
 @media (max-width: 768px) {
   .dashboard-title {
-    font-size: 1.5rem; /* Reduce font size for smaller devices */
+    font-size: 1.5rem;
   }
 
   .navbar ul li {
-    padding: 10px 15px; /* Adjust padding for smaller devices */
-    font-size: 0.9rem; /* Slightly smaller font */
+    padding: 10px 15px;
+    font-size: 0.9rem;
   }
 
   .content {
-    width: 95%; /* Increase width for smaller devices */
-  }
-
-  .report-item {
-    width: 100%; /* Full width on small screens */
-    max-width: none; /* Remove max-width for small devices */
+    width: 95%;
   }
 }
 
 @media (max-width: 480px) {
   .dashboard-title {
-    font-size: 1.25rem; /* Further reduce font size for very small devices */
+    font-size: 1.25rem;
   }
 
   .navbar ul li {
-    margin: 0 5px; /* Reduce margin between navbar items */
-    font-size: 0.8rem; /* Smaller font for very small devices */
-  }
-
-  .report-item {
-    padding: 15px; /* Reduce padding on report items */
+    margin: 0 5px;
+    font-size: 0.8rem;
   }
 }
 
 /* Add this CSS for the buttons */
 .add-button {
-  background-color: #4caf50; /* Green background */
-  color: white; /* White text */
-  border: none; /* No border */
-  padding: 10px 20px; /* Padding for button */
-  text-align: center; /* Center text */
-  text-decoration: none; /* No underline */
-  display: inline-block; /* Inline block for spacing */
-  font-size: 1rem; /* Font size */
-  margin-top: 20px; /* Margin above the button */
-  cursor: pointer; /* Pointer cursor on hover */
-  border-radius: 5px; /* Rounded corners */
-  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1rem;
+  margin-top: 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
 }
 
 .add-button:hover {
-  background-color: #45a049; /* Darker green on hover */
+  background-color: #45a049;
 }
-
