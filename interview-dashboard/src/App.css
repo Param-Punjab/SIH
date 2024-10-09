@@ -76,7 +76,7 @@ body {
 .fade-enter-active {
   opacity: 1;
   transform: translateX(0);
-  transition: opacity 300ms, transform 300ms;
+  transition: opacity 200ms, transform 300ms;
 }
 
 .fade-exit {

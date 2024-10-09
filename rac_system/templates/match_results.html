@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Matching Results</title>
+</head>
+<body>
+    <h2>Matching Results</h2>
+
+    <!-- Table to display the results -->
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Candidate</th>
+                <th>Best Expert</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for result in results %}
+            <tr>
+                <td>{{ result.candidate }}</td>
+                <td>{{ result.best_expert }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

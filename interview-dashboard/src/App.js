@@ -10,6 +10,11 @@ import AnimatedButton from "./AnimatedButton";
 
 function App() {
   const [activeTab, setActiveTab] = useState("home");
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+  };
 
   const renderContent = () => {
     switch (activeTab) {
