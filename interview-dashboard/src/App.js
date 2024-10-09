@@ -22,19 +22,19 @@ function App() {
         );
       case "interviewers":
         return (
-          <div key="interviewers">
+          <div key="interviewers" className="content">
             <Interviewers />
             <AnimatedButton text="Add Interviewers" onClick={() => alert("Add Interviewers Clicked!")} />
           </div>
         );
       case "candidates":
         return (
-          <div key="candidates">
+          <div key="candidates" className="content">
             <Candidates />
             <AnimatedButton text="Add Candidates" onClick={() => alert("Add Candidates Clicked!")} />
           </div>
         );
-      case "reports":
+      case "reports": 
         return <Reports key="reports" />;
       case "settings":
         return <Settings key="settings" />;
