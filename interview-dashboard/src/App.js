@@ -6,6 +6,7 @@ import Candidates from "./Candidates";
 import Interviewers from "./Interviewers";
 import Reports from "./Reports";
 import Settings from "./Settings";
+import AnimatedButton from "./AnimatedButton"; // Import the AnimatedButton
 
 function App() {
   const [activeTab, setActiveTab] = useState("home");
@@ -58,9 +59,19 @@ function App() {
           </motion.div>
         );
       case "interviewers":
-        return <Interviewers />;
+        return (
+          <div>
+            <Interviewers />
+            <AnimatedButton text="Add Interviewers" onClick={() => alert("Add Interviewers Clicked!")} />
+          </div>
+        );
       case "candidates":
-        return <Candidates />;
+        return (
+          <div>
+            <Candidates />
+            <AnimatedButton text="Add Candidates" onClick={() => alert("Add Candidates Clicked!")} />
+          </div>
+        );
       case "reports":
         return <Reports />;
       case "settings":

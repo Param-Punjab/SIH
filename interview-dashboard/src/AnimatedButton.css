@@ -1,0 +1,18 @@
+/* AnimatedButton.css */
+.animated-button {
+    background-color: #4caf50; /* Green */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.3s;
+    margin: 10px; /* Space around the button */
+  }
+  
+  .animated-button:hover {
+    background-color: #45a049; /* Darker green on hover */
+  }
+  
