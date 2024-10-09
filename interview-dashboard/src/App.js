@@ -1,140 +1,70 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import "./App.css"; // Import the CSS file for styles
+import "./App.css";
+import "./Dashboard.css";
+import Candidates from "./Candidates";
+import Interviewers from "./Interviewers";
+import Reports from "./Reports";
+import Settings from "./Settings";
 
 function App() {
   const [activeTab, setActiveTab] = useState("home");
+  const [tabPosition, setTabPosition] = useState({ left: 0, width: 0 });
+  const navRef = useRef(null);
 
-  const pageVariants = {
-    initial: { opacity: 0, y: 20 },
-    enter: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: -20 },
+  const updateTabPosition = (index) => {
+    if (navRef.current) {
+      const navItem = navRef.current.children[index];
+      const { left, width } = navItem.getBoundingClientRect();
+      const navLeft = navRef.current.getBoundingClientRect().left;
+      setTabPosition({ left: left - navLeft, width });
+    }
   };
 
-  const pageTransition = {
-    duration: 0.5, // Adjust the transition duration
+  const pageVariants = {
+    initial: (custom) => ({
+      opacity: 0,
+      x: custom.left + custom.width / 2,
+      y: -50,
+      scale: 0.5,
+    }),
+    enter: {
+      opacity: 1,
+      x: 0,
+      y: 0,
+      scale: 1,
+      transition: {
+        type: "spring",
+        stiffness: 500,
+        damping: 30,
+      },
+    },
+    exit: {
+      opacity: 0,
+      x: 100,
+      transition: {
+        duration: 0.2,
+      },
+    },
   };
 
   const renderContent = () => {
     switch (activeTab) {
       case "home":
         return (
-          <motion.div
-            key="home"
-            initial="initial"
-            animate="enter"
-            exit="exit"
-            variants={pageVariants}
-            transition={pageTransition}
-            className="content"
-          >
+          <motion.div key="home" className="content">
             <h1>Upcoming Interviews</h1>
             <p>Details of upcoming interviews...</p>
           </motion.div>
         );
       case "interviewers":
-        return (
-          <motion.div
-            key="interviewers"
-            initial="initial"
-            animate="enter"
-            exit="exit"
-            variants={pageVariants}
-            transition={pageTransition}
-            className="content"
-          >
-            <h1>Interviewers</h1>
-            <table className="styled-table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Email ID</th>
-                  <th>More Details</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>John Doe</td>
-                  <td>john@example.com</td>
-                  <td>View</td>
-                </tr>
-              </tbody>
-            </table>
-          </motion.div>
-        );
+        return <Interviewers />;
       case "candidates":
-        return (
-          <motion.div
-            key="candidates"
-            initial="initial"
-            animate="enter"
-            exit="exit"
-            variants={pageVariants}
-            transition={pageTransition}
-            className="content"
-          >
-            <h1>Candidates</h1>
-            <table className="styled-table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Email ID</th>
-                  <th>More Details</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Jane Smith</td>
-                  <td>jane@example.com</td>
-                  <td>View</td>
-                </tr>
-              </tbody>
-            </table>
-          </motion.div>
-        );
+        return <Candidates />;
       case "reports":
-        return (
-          <motion.div
-            key="reports"
-            initial="initial"
-            animate="enter"
-            exit="exit"
-            variants={pageVariants}
-            transition={pageTransition}
-            className="content report-section"
-          >
-            <h1>Reports</h1>
-            <div className="reports-box">
-              <div className="report-item">
-                <h2>Total Interviews</h2>
-                <p>50</p>
-              </div>
-              <div className="report-item">
-                <h2>Upcoming Interviews</h2>
-                <p>15</p>
-              </div>
-              <div className="report-item">
-                <h2>Completed Interviews</h2>
-                <p>35</p>
-              </div>
-            </div>
-          </motion.div>
-        );
+        return <Reports />;
       case "settings":
-        return (
-          <motion.div
-            key="settings"
-            initial="initial"
-            animate="enter"
-            exit="exit"
-            variants={pageVariants}
-            transition={pageTransition}
-            className="content"
-          >
-            <h1>Settings</h1>
-            <p>Change theme, preferences...</p>
-          </motion.div>
-        );
+        return <Settings />;
       default:
         return null;
     }
@@ -142,46 +72,35 @@ function App() {
 
   return (
     <div className="app">
-      {/* Navigation Bar */}
       <nav className="navbar">
-        <ul>
-          <li
-            className={activeTab === "home" ? "active" : ""}
-            onClick={() => setActiveTab("home")}
-          >
-            Home
-          </li>
-          <li
-            className={activeTab === "interviewers" ? "active" : ""}
-            onClick={() => setActiveTab("interviewers")}
-          >
-            Interviewers
-          </li>
-          <li
-            className={activeTab === "candidates" ? "active" : ""}
-            onClick={() => setActiveTab("candidates")}
-          >
-            Candidates
-          </li>
-          <li
-            className={activeTab === "reports" ? "active" : ""}
-            onClick={() => setActiveTab("reports")}
-          >
-            Reports
-          </li>
-          <li
-            className={activeTab === "settings" ? "active" : ""}
-            onClick={() => setActiveTab("settings")}
-          >
-            Settings
-          </li>
+        <ul ref={navRef}>
+          {["home", "interviewers", "candidates", "reports", "settings"].map((tab, index) => (
+            <li
+              key={tab}
+              className={activeTab === tab ? "active" : ""}
+              onClick={() => {
+                setActiveTab(tab);
+                updateTabPosition(index);
+              }}
+            >
+              {tab.charAt(0).toUpperCase() + tab.slice(1)}
+            </li>
+          ))}
         </ul>
       </nav>
 
-      {/* Main Content */}
       <main>
-        <AnimatePresence>
-          {renderContent()}
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={activeTab}
+            custom={tabPosition}
+            variants={pageVariants}
+            initial="initial"
+            animate="enter"
+            exit="exit"
+          >
+            {renderContent()}
+          </motion.div>
         </AnimatePresence>
       </main>
     </div>
@@ -189,4 +108,3 @@ function App() {
 }
 
 export default App;
-
