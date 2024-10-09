@@ -54,7 +54,27 @@ function App() {
         return (
           <motion.div key="home" className="content">
             <h1>Upcoming Interviews</h1>
-            <p>Details of upcoming interviews...</p>
+            <p>
+            <table>
+        <thead>
+          <tr>
+            <th>Interviewer</th>
+            <th>Candidate</th>
+          </tr>
+        </thead>
+        <tbody>
+          {/* Sample data */}
+          <tr>
+            <td>Candidate</td>
+            <td>Emily Davis</td>
+          </tr>
+          <tr>
+            <td>Mark Johnson</td>
+            <td>Mark Johnson</td>
+          </tr>
+        </tbody>
+      </table>
+            </p>
           </motion.div>
         );
       case "interviewers":
